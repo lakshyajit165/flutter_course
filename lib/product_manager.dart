@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 import './products.dart';
 
-class ProductManager extends StatefulWidget {
+import './product_control.dart';
 
+class ProductManager extends StatefulWidget {
   final String startingProduct;
 
-  ProductManager({this.startingProduct = 'Sweets'}){
+  ProductManager({this.startingProduct = 'Sweets'}) {
     print('[ProductManager Widget] Constructor');
   }
 
@@ -21,35 +22,35 @@ class _ProductManagerState extends State<ProductManager> {
   List<String> _products = [];
 
   @override
-    void initState() {
-      print('[ProductManager State] initState() ');
-      super.initState();
-      _products.add(widget.startingProduct);
-      
+  void initState() {
+    print('[ProductManager State] initState() ');
+    super.initState();
+    _products.add(widget.startingProduct);
   }
 
   @override
-    void didUpdateWidget(ProductManager oldWidget) {
-      print('[ProductManager State] didUpdateWidget()');
-      super.didUpdateWidget(oldWidget);
-    }
+  void didUpdateWidget(ProductManager oldWidget) {
+    print('[ProductManager State] didUpdateWidget()');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _addProduct(String product) {
+    setState(() {
+      _products.add(product);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     print('[ProductManager Widget] build()');
-    return Column(children: [Container(
-      margin: EdgeInsets.all(10.0),
-      child: RaisedButton(
-        color: Theme.of(context).primaryColor,
-        onPressed: () {
-          setState(() {
-            _products.add('Advanced Food Tester');
-          });
-        },
-        child: Text('Add Product'),
-      ),
-    ),
-    Products(_products)
-    ],);
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.all(10.0),
+          child: ProductControl(_addProduct),
+        ),
+        Products(_products)
+      ],
+    );
   }
 }

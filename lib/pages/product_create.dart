@@ -1,9 +1,47 @@
 import 'package:flutter/material.dart';
 
-class ProductCreatePage extends StatelessWidget{
+class ProductCreatePage extends StatefulWidget {
   @override
-    Widget build(BuildContext context) {
-      // TODO: implement build
-      return Center(child: Text('Create a Product'),);
-    }
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _ProductCreatePageState();
+  }
+}
+
+class _ProductCreatePageState extends State<ProductCreatePage> {
+  String titleValue;
+  String descriptionValue;
+  double priceValue;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Column(
+      children: <Widget>[
+        TextField(
+          onChanged: (String value) {
+            setState(() {
+              titleValue = value;
+            });
+          },
+        ),
+         TextField(
+          maxLines: 4, 
+          onChanged: (String value) {
+            setState(() {
+              descriptionValue = value;
+            });
+          },
+        ),
+         TextField(
+          keyboardType: TextInputType.number, 
+          onChanged: (String value) {
+            setState(() {
+              priceValue = double.parse(value);
+            });
+          },
+        ),
+      ],
+    );
+  }
 }

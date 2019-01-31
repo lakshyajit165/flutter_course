@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-
-
 class Products extends StatelessWidget {
   final List<Map<String, dynamic>> products;
-
- 
 
   Products(this.products) {
     print('[Products Widget] Constructor');
@@ -18,18 +14,18 @@ class Products extends StatelessWidget {
           Image.asset(products[index]['image']),
           Container(
             padding: EdgeInsets.only(top: 10.0),
-
-            child: Text(products[index]['title']),
+            child: Text(
+              products[index]['title'],
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, fontFamily: 'Oswald'),
+            ),
           ),
-          
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               FlatButton(
                 child: Text('Details'),
                 onPressed: () => Navigator.pushNamed<bool>(
-                            context, '/product/' + index.toString())
-                         ,
+                    context, '/product/' + index.toString()),
               )
             ],
           )

@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 
-class Products extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
+import './price_tag.dart';
 
-  Products(this.products) {
-    print('[Products Widget] Constructor');
-  }
+class ProductCard extends StatelessWidget{
 
-  Widget _buildProductItem(BuildContext context, int index) {
+  final Map<String, dynamic> product;
+
+  final int productIndex;
+
+  ProductCard(this.product, this.productIndex);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
     return Card(
       child: Column(
         children: <Widget>[
-          Image.asset(products[index]['image']),
+          Image.asset(product['image']),
           Container(
               padding: EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    products[index]['title'],
+                    product['title'],
                     style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -27,17 +32,7 @@ class Products extends StatelessWidget {
                   SizedBox(
                     width: 8.0,
                   ),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).accentColor,
-                        borderRadius: BorderRadius.circular(5.0)),
-                    child: Text(
-                      '\$${products[index]['price'].toString()}',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
+                  PriceTag(product['price'].toString()),
                 ],
               )),
           Container(
@@ -54,37 +49,18 @@ class Products extends StatelessWidget {
                 icon: Icon(Icons.info),
                 color: Theme.of(context).accentColor,
                 onPressed: () => Navigator.pushNamed<bool>(
-                    context, '/product/' + index.toString()),
+                    context, '/product/' + productIndex.toString()),
               ),
               IconButton(
                 icon: Icon(Icons.favorite_border),
                 color: Colors.red,
                 onPressed: () => Navigator.pushNamed<bool>(
-                    context, '/product/' + index.toString()),
+                    context, '/product/' + productIndex.toString()),
               )
             ],
           )
         ],
       ),
     );
-  }
-
-  Widget _buildProductList() {
-    Widget productCard;
-    if (products.length > 0) {
-      productCard = ListView.builder(
-        itemBuilder: _buildProductItem,
-        itemCount: products.length,
-      );
-    } else {
-      productCard = Container();
-    }
-    return productCard;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print('[Products Widget] build()');
-    return _buildProductList();
   }
 }

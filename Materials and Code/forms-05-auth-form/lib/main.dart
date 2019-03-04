@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-
 // import 'package:flutter/rendering.dart';
 
 import './pages/auth.dart';
-
 import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
+  // debugPaintBaselinesEnabled = true;
+  // debugPaintPointersEnabled = true;
   runApp(MyApp());
 }
 
@@ -27,13 +27,9 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _products.add(product);
     });
+    print(_products);
   }
 
-  void _updateProduct(int index, Map<String, dynamic> product){
-    setState(() {
-        _products[index] = product; 
-    });
-  }
   void _deleteProduct(int index) {
     setState(() {
       _products.removeAt(index);
@@ -43,17 +39,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // debugShowMaterialGrid: true,
       theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Colors.deepOrange,
           accentColor: Colors.deepPurple,
           buttonColor: Colors.deepPurple),
-      //home: AuthPage(),
+      // home: AuthPage(),
       routes: {
         '/': (BuildContext context) => AuthPage(),
         '/products': (BuildContext context) => ProductsPage(_products),
         '/admin': (BuildContext context) =>
-            ProductsAdminPage(_addProduct, _updateProduct, _deleteProduct, _products),
+            ProductsAdminPage(_addProduct, _deleteProduct),
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');

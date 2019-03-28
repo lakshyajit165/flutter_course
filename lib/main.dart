@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+
 // import 'package:flutter/rendering.dart';
 
 import './pages/auth.dart';
@@ -9,6 +11,7 @@ import './pages/products.dart';
 import './pages/product.dart';
 
 import './models/product.dart';
+import './scoped-model/products.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -25,7 +28,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ScopedModel<ProductsModel>(
+      model: ProductsModel(),
+      child: MaterialApp(
       theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Colors.deepOrange,
@@ -46,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
             builder: (BuildContext context) =>
-                ProductPage(null, null, null, null),
+                ProductPage(index,),
           );
         }
         return null;
@@ -55,6 +60,6 @@ class _MyAppState extends State<MyApp> {
         return MaterialPageRoute(
             builder: (BuildContext context) => ProductsPage());
       },
-    );
+    ));
   }
 }

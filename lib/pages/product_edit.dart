@@ -5,7 +5,7 @@ import '../models/product.dart';
 
 import 'package:scoped_model/scoped_model.dart';
 
-import '../scoped-model/products.dart';
+import '../scoped-model/main.dart';
 
 class ProductEditPage extends StatefulWidget {
   
@@ -91,8 +91,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
   }
 
   Widget _buildSubmitButton() {
-    return ScopedModelDescendant<ProductsModel>(
-      builder: (BuildContext context, Widget child, ProductsModel model) {
+    return ScopedModelDescendant<MainModel>(
+      builder: (BuildContext context, Widget child, MainModel model) {
         return RaisedButton(
             child: Text('Save'),
             textColor: Colors.white,
@@ -160,9 +160,9 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
    
 
-    return ScopedModelDescendant<ProductsModel>(
+    return ScopedModelDescendant<MainModel>(
        
-      builder: (BuildContext context, Widget child, ProductsModel model) {
+      builder: (BuildContext context, Widget child, MainModel model) {
         final Widget pageContent = _buildPageContent(context, model.selectedProduct);
         return model.selectedProductIndex== null
         ? pageContent

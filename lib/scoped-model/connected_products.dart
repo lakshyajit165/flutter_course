@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/product.dart';
 import '../models/user.dart';
@@ -10,16 +13,30 @@ mixin ConnectedProductsModel on Model {
 
   void addProduct(
       String title, String description, String image, double price) {
-    final Product newProduct = Product(
-        title: title,
-        description: description,
-        image: image,
-        price: price,
-        userEmail: _authenticatedUser.email,
-        userId: _authenticatedUser.id);
-    _products.add(newProduct);
+    final Map<String, dynamic> productData = {
+      'title': title,
+      'description': description,
+      'image':
+          'https://upload.wikimedia.org/wikipedia/commons/7/70/Chocolate_%28blue_background%29.jpg',
+      'price': price
+    };
+    http
+        .post('https://flutter-products-937c1.firebaseio.com/products.json',
+            body: json.encode(productData))
+        .then((http.Response response) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final Product newProduct = Product(
+          id: responseData['name'],
+          title: title,
+          description: description,
+          image: image,
+          price: price,
+          userEmail: _authenticatedUser.email,
+          userId: _authenticatedUser.id);
+      _products.add(newProduct);
 
-    notifyListeners();
+      notifyListeners();
+    });
   }
 }
 
@@ -70,6 +87,13 @@ mixin ProductsModel on ConnectedProductsModel {
   void deleteProduct() {
     _products.removeAt(selectedProductIndex);
     notifyListeners();
+  }
+
+  void fetchProducts(){
+    http.get('https://flutter-products-937c1.firebaseio.com/products.json')
+        .then((http.Response response){
+          print(json.decode(response.body));
+        });
   }
 
   void toggleProductFavoriteStatus() {
